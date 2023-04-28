@@ -56,24 +56,24 @@ static const char hex_digits[16] = "0123456789abcdef";
 static void
 tcode_table_aref(mrbc_vm *vm, mrbc_value *v, int argc)
 {
-    int index = GET_INT_ARG(1);
-    if (0 <= index && index < 1600) {
-        uint16_t codepoint = tcode_table_uncached[index];
-        char buf[4];
-        for (int i = 0; i < 4; i++) {
-            buf[i] = hex_digits[codepoint >> 4 * (3 - i) & 0x000F];
-        }
-        mrbc_value value = mrbc_string_new(vm, buf, 4);
-        SET_RETURN(value);
+  int index = GET_INT_ARG(1);
+  if (0 <= index && index < 1600) {
+    uint16_t codepoint = tcode_table_uncached[index];
+    char buf[4];
+    for (int i = 0; i < 4; i++) {
+      buf[i] = hex_digits[codepoint >> 4 * (3 - i) & 0x000F];
     }
-    else {
-        SET_NIL_RETURN();
-    }
+    mrbc_value value = mrbc_string_new(vm, buf, 4);
+    SET_RETURN(value);
+  }
+  else {
+    SET_NIL_RETURN();
+  }
 }
 
 void
 prk_init_TcodeTable(void)
 {
-    mrbc_class *mrbc_class_TcodeTable = mrbc_define_class(0, "TcodeTable", mrbc_class_object);
-    mrbc_define_method(0, mrbc_class_TcodeTable, "[]", tcode_table_aref);
+  mrbc_class *mrbc_class_TcodeTable = mrbc_define_class(0, "TcodeTable", mrbc_class_object);
+  mrbc_define_method(0, mrbc_class_TcodeTable, "[]", tcode_table_aref);
 }
